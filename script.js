@@ -1,10 +1,9 @@
-const SERVER_URL = `https://score-jade.vercel.app`;
+const LIST_SERVER = [`https://score-jade.vercel.app`, `https://score-1bl8.vercel.app`, `https://score-pdry.vercel.app`]
 
 const searchBtn = document.getElementById("search-btn");
 const formUI = document.getElementById("form");
 const wrapper = document.getElementById("wrapper");
 
-const error = `Không tìm thấy SBD`;
 const showProfile = (info) => {
   const profile = `
     <div class="profile" id="profile">
@@ -42,7 +41,7 @@ const showProfile = (info) => {
   wrapper.innerHTML = profile;
 };
 
-const loader = `<div class="loader"></div>`;
+const loader = `<div><div class="loader"></div></div>`;
 
 const searchAction = async (e) => {
   e.preventDefault();
@@ -50,12 +49,15 @@ const searchAction = async (e) => {
   SBDInput = SBDInput.trim();
   if (SBDInput) {
     wrapper.innerHTML = loader;
+    let index = Math.floor(Math.random() * LIST_SERVER.length);
+    const SERVER_URL = LIST_SERVER[index];
     fetch(`${SERVER_URL}/candidates/${SBDInput}`)
       .then((r) => r.json())
       .then((data) => {
         showProfile(data);
       })
       .catch(() => {
+        const error = `<div>Không tìm thấy SBD <b>${SBDInput}</b></div>`;
         wrapper.innerHTML = error;
       });
   }
