@@ -5,38 +5,52 @@ const formUI = document.getElementById("form");
 const wrapper = document.getElementById("wrapper");
 
 const showProfile = (info) => {
+  const {math = 0, english = 0, literature = 0, extra = 0, SBD = "", fullname = "", born = ""} = info;
+const isAbsence = !math && !english && !literature;
   const profile = `
     <div class="profile" id="profile">
       <div class="line">
         <div class="title">Số báo danh:</div>
-        <div class="value">${info.SBD}</div>
+        <div class="value">${SBD}</div>
       </div>
       <div class="line">
         <div class="title">Họ và tên:</div>
-        <div class="value" >${info.firstname} ${info.lastname}</div>
+        <div class="value" >${fullname}</div>
       </div>
       <div class="line">
         <div class="title">Ngày sinh:</div>
-        <div class="value" >${info.born}</div>
+        <div class="value" >${born}</div>
       </div>
-      <div class="line">
+      ${isAbsence ? `<div style="font-size: 1.5rem; color: red">Vắng thi</div>` : `<div class="line">
         <div class="title">Điểm thi:</div>
       </div>
       <div class="line">
         <div class="score">
           <div class="">Toán:</div>
-          <div class="value" >${info.math}</div>
+          <div class="value" >${math}</div>
         </div>
         <div class="score">
           <div class="">Văn:</div>
-          <div class="value" >${info.literature}</div>
+          <div class="value" >${literature}</div>
         </div>
         <div class="score">
           <div class="">Anh:</div>
-          <div class="value" >${info.english}</div>
+          <div class="value" >${english}</div>
         </div>
       </div>
-    </div>
+      <div class="line">
+      <div class="score">
+          <div class="">Điểm khuyến khích:</div>
+          <div class="value" >${extra}</div>
+        </div>
+      </div>
+      <div class="score" style="font-size: 1.5rem">
+          <div class="">Tổng điểm:</div>
+          <div class="value" style="color: #fa995e">${extra + math + english + literature}</div>
+        </div>
+      </div>
+    </div>`}
+      
   `;
   wrapper.innerHTML = profile;
 };
@@ -51,6 +65,7 @@ const searchAction = async (e) => {
     wrapper.innerHTML = loader;
     let index = Math.floor(Math.random() * LIST_SERVER.length);
     const SERVER_URL = LIST_SERVER[index];
+    // const SERVER_URL = "http://localhost:8800"
     fetch(`${SERVER_URL}/candidates/${SBDInput}`)
       .then((r) => r.json())
       .then((data) => {
