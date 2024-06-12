@@ -30,16 +30,14 @@ const isAbsence = !math && !english && !literature;
           <div class="value" >${math}</div>
         </div>
         <div class="score">
-          <div class="">Văn:</div>
+          <div class="">Văn/Tiếng Việt:</div>
           <div class="value" >${literature}</div>
         </div>
         <div class="score">
           <div class="">Anh:</div>
           <div class="value" >${english}</div>
         </div>
-      </div>
-      <div class="line">
-      <div class="score">
+        <div class="score">
           <div class="">Điểm khuyến khích:</div>
           <div class="value" >${extra}</div>
         </div>
