@@ -5,8 +5,8 @@ const formUI = document.getElementById("form");
 const wrapper = document.getElementById("wrapper");
 
 const showProfile = (info) => {
-  const {math = 0, english = 0, literature = 0, extra = 0, SBD = "", fullname = "", born = ""} = info;
-const isAbsence = !math && !english && !literature;
+  const { math = 0, english = 0, literature = 0, extra = 0, SBD = "", fullname = "", born = "" } = info;
+  const isAbsence = !math && !english && !literature;
   const profile = `
     <div class="profile" id="profile">
       <div class="line">
