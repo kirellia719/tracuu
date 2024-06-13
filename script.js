@@ -1,12 +1,33 @@
-const LIST_SERVER = [`https://score-jade.vercel.app`, `https://score-1bl8.vercel.app`, `https://score-pdry.vercel.app`]
+const LIST_SERVER = [
+  `https://score-jade.vercel.app`,
+  `https://score-1bl8.vercel.app`,
+  `https://score-pdry.vercel.app`,
+];
 
 const searchBtn = document.getElementById("search-btn");
 const formUI = document.getElementById("form");
 const wrapper = document.getElementById("wrapper");
 
+const MRound = (n) => {
+  return Math.round(n * 100) / 100;
+};
+
 const showProfile = (info) => {
-  const { math = 0, english = 0, literature = 0, extra = 0, SBD = "", fullname = "", born = "" } = info;
+  const {
+    math = 0,
+    english = 0,
+    literature = 0,
+    extra = 0,
+    SBD = "",
+    fullname = "",
+    born = "",
+    result,
+  } = info;
+
   const isAbsence = !math && !english && !literature;
+
+  const sum = MRound(extra + math + english + literature);
+
   const profile = `
     <div class="profile" id="profile">
       <div class="line">
@@ -21,34 +42,49 @@ const showProfile = (info) => {
         <div class="title">Ngày sinh:</div>
         <div class="value" >${born}</div>
       </div>
-      ${isAbsence ? `<div style="font-size: 1.5rem; color: red">Vắng thi</div>` : `<div class="line">
-        <div class="title">Điểm thi:</div>
-      </div>
-      <div class="line">
-        <div class="score">
-          <div class="">Toán:</div>
-          <div class="value" >${math}</div>
-        </div>
-        <div class="score">
-          <div class="">Văn/Tiếng Việt:</div>
-          <div class="value" >${literature}</div>
-        </div>
-        <div class="score">
-          <div class="">Anh:</div>
-          <div class="value" >${english}</div>
-        </div>
-        <div class="score">
-          <div class="">Điểm khuyến khích:</div>
-          <div class="value" >${extra}</div>
-        </div>
-      </div>
-      <div class="score" style="font-size: 1.5rem">
-          <div class="">Tổng điểm:</div>
-          <div class="value" style="color: #fa995e">${extra + math + english + literature}</div>
-        </div>
-      </div>
-    </div>`}
-      
+      ${
+        isAbsence
+          ? `<div style="font-size: 1.5rem; color: red">Vắng thi</div>`
+          : `
+            <div class="line">
+              <div class="title">Điểm kiểm tra:</div>
+            </div>
+            <div class="line">
+              <div class="score">
+                <div class="">Toán:</div>
+                <div class="value" >${MRound(math)}</div>
+              </div>
+              <div class="score">
+                <div class="">Văn/Tiếng Việt:</div>
+                <div class="value" >${MRound(literature)}</div>
+              </div>
+              <div class="score">
+                <div class="">Anh:</div>
+                <div class="value" >${MRound(english)}</div>
+              </div>
+              <div class="score">
+                <div class="">Điểm khuyến khích:</div>
+                <div class="value" >${MRound(extra)}</div>
+              </div>
+            </div>
+            <div class="line sum">
+              <div class="score">
+                <div class="">Tổng điểm:</div>
+                <div class="value" style="color: #fa995e">${sum}</div>
+              </div>
+              ${
+                result != null
+                  ? `<div class="score" >
+                <div class="value" style="color: ${result ? "green" : "red"}">${
+                      result == true ? "Trúng tuyển" : "Không trúng tuyển"
+                    }</div>`
+                  : ""
+              }
+              </div>
+            </div>
+      `
+      }
+    </div>
   `;
   wrapper.innerHTML = profile;
 };
